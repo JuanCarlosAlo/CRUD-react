@@ -6,7 +6,7 @@ import {
 	StyledUserInfo
 } from './styles';
 
-const UserCard = ({ element }) => {
+const UserCard = ({ element, setAction, action }) => {
 	const navigate = useNavigate();
 
 	return (
@@ -24,7 +24,13 @@ const UserCard = ({ element }) => {
 					<button onClick={() => navigate(`/details/${element.userId}`)}>
 						details
 					</button>
-					<button>edit</button>
+					<button
+						onClick={() =>
+							setAction({ delete: false, open: true, edit: element.userId })
+						}
+					>
+						edit
+					</button>
 					<button>delete</button>
 				</div>
 			</StyledButtonsContainer>

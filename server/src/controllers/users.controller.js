@@ -23,4 +23,26 @@ controller.userById = (req, res) => {
   });
 };
 
+controller.editId = (req, res) => {
+  fs.readFile(userFile, (err, data) => {
+    console.log(data);
+    const id = req.params.id;
+    const jsonData = JSON.parse(data);
+    const newData = req.body;
+
+    if (err) return res.status(500).send("Failed to read the user file");
+
+    const userIndex = jsonData.findIndex((user) => user.userId === id);
+    const userSelected = jsonData[userIndex];
+    const newUserData = { ...userSelected, ...newData };
+    if (userIndex === -1) return res.status(404).send("User not found");
+    jsonData.splice(userIndex, 1, newUserData);
+
+    fs.writeFile(userFile, JSON.stringify(jsonData), (err) => {
+      if (err) throw err;
+      res.send(jsonData);
+    });
+  });
+};
+
 module.exports = controller;

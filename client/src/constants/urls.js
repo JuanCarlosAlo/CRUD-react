@@ -2,5 +2,6 @@ const BASE = 'http://localhost:3000/crud/users';
 
 export const URLS = {
 	ALL: BASE,
-	DETAILS: BASE + '/details'
+	DETAILS: BASE + '/details',
+	EDIT: BASE + '/edit'
 };
