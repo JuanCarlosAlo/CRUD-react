@@ -13,4 +13,14 @@ controller.allUsers = (req, res) => {
   });
 };
 
+controller.userById = (req, res) => {
+  fs.readFile(userFile, (err, data) => {
+    const userParam = req.params.id;
+    if (err) throw err;
+    const jsonData = JSON.parse(data);
+    const userDetails = jsonData.find((user) => user.userId === userParam);
+    res.send(userDetails);
+  });
+};
+
 module.exports = controller;

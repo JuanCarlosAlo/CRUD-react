@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom';
 import {
 	StyledButtonsContainer,
 	StyledUserCard,
@@ -6,6 +7,8 @@ import {
 } from './styles';
 
 const UserCard = ({ element }) => {
+	const navigate = useNavigate();
+
 	return (
 		<StyledUserCard>
 			<StyledUserInfo>
@@ -18,7 +21,9 @@ const UserCard = ({ element }) => {
 			<StyledButtonsContainer>
 				<p>{element.active ? 'Online' : 'Offline'}</p>
 				<div>
-					<button>details</button>
+					<button onClick={() => navigate(`/details/${element.userId}`)}>
+						details
+					</button>
 					<button>edit</button>
 					<button>delete</button>
 				</div>
