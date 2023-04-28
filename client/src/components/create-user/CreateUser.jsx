@@ -2,16 +2,21 @@ import { useState } from 'react';
 import { URLS } from '../../constants/urls';
 
 const CreateUser = ({ setData, setAction }) => {
+	const [gender, setGender] = useState('men');
+	const [picture, setPicture] = useState(
+		'https://randomuser.me/api/portraits/men/57.jpg'
+	);
 	const [newUser, SetNewUser] = useState({
 		active: false,
 		age: '',
 		email: '',
 		name: '',
 		title: '',
-		username: ''
+		username: '',
+		profileImage: picture
 	});
 	return (
-		<form>
+		<form onChange={e => e.preventDefault()}>
 			<div>
 				<label htmlFor='username'>User Name</label>
 				<input
@@ -29,7 +34,7 @@ const CreateUser = ({ setData, setAction }) => {
 				/>
 			</div>
 			<div>
-				<label htmlFor='email'>User Name</label>
+				<label htmlFor='email'>email</label>
 				<input
 					onChange={e => SetNewUser({ ...newUser, email: e.target.value })}
 					id='email'
@@ -45,10 +50,12 @@ const CreateUser = ({ setData, setAction }) => {
 				/>
 			</div>
 			<div>
-				<label htmlFor='male'>Male</label>
-				<input id='male' type='checkbox' />
-				<label htmlFor='female'>Female</label>
-				<input id='female' type='checkbox' />
+				<label htmlFor='male'>Title</label>
+				<input
+					onChange={e => SetNewUser({ ...newUser, title: e.target.value })}
+					id='male'
+					type='text'
+				/>
 			</div>
 			<div>
 				<label htmlFor='active'>Active</label>
@@ -58,6 +65,34 @@ const CreateUser = ({ setData, setAction }) => {
 					type='checkbox'
 				/>
 			</div>
+			<div>
+				<label htmlFor='men'>Man</label>
+				<input
+					type='radio'
+					name='gender'
+					id='men'
+					value='men'
+					defaultChecked
+					onChange={e => setGender(e.target.value)}
+				/>
+				<label htmlFor='women'>Woman</label>
+				<input
+					type='radio'
+					name='gender'
+					id='women'
+					value='women'
+					onChange={e => setGender(e.target.value)}
+				/>
+			</div>
+			<img src={picture} alt='' />
+			<button
+				onClick={e => {
+					e.preventDefault();
+					randomPicture(gender, setPicture);
+				}}
+			>
+				Generate picture
+			</button>
 			<button
 				onClick={() =>
 					fetchDataCreate(URLS.POST, setData, {
@@ -89,6 +124,13 @@ const CreateUser = ({ setData, setAction }) => {
 				Cancel
 			</button>
 		</form>
+	);
+};
+
+const randomPicture = (gender, setPicture) => {
+	const randomNumber = Math.floor(Math.random() * 99);
+	setPicture(
+		`https://randomuser.me/api/portraits/${gender}/${randomNumber}.jpg`
 	);
 };
 
