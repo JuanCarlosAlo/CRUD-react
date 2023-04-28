@@ -6,6 +6,7 @@ import { useState } from 'react';
 import EditUser from '../../components/edit-user/EditUser';
 import DeleteUser from '../../components/delete-user/DeleteUser';
 import CreateUser from '../../components/create-user/CreateUser';
+import { StyledHome } from './styles';
 
 const Home = () => {
 	const { data, setData } = useFetch(URLS.ALL);
@@ -15,15 +16,23 @@ const Home = () => {
 		open: false,
 		create: false
 	});
-	const editUser = data.filter(element => element.userId === action.edit);
-	const deleteUser = data.filter(element => element.userId === action.delete);
+	const [userById, setUserById] = useState({});
 	if (!data) {
 		return <h1>Loading</h1>;
 	} else {
 		return (
-			<>
+			<StyledHome>
 				<div>
-					<button onClick={() => setAction({ ...action, create: true })}>
+					<button
+						onClick={() =>
+							setAction({
+								edit: false,
+								delete: false,
+								open: false,
+								create: true
+							})
+						}
+					>
 						Create User
 					</button>
 					{data.map(element => (
@@ -31,31 +40,34 @@ const Home = () => {
 							key={v4()}
 							element={element}
 							setAction={setAction}
-							action={action}
+							setUserById={setUserById}
 						/>
 					))}
 				</div>
-				<div>{filter(action, editUser, deleteUser, setData, setAction)}</div>
-			</>
+				<div>
+					{filter(action, setData, setAction, userById, data, setUserById)}
+				</div>
+			</StyledHome>
 		);
 	}
 };
 
-const filter = (action, editUser, deleteUser, setData, setAction) => {
+const filter = (action, setData, setAction, userById, data, setUserById) => {
 	if (action.edit)
 		return (
-			<EditUser editUser={editUser} setData={setData} setAction={setAction} />
+			<EditUser userById={userById} setData={setData} setAction={setAction} />
 		);
 	if (action.delete)
 		return (
 			<DeleteUser
-				deleteUser={deleteUser}
+				userById={userById}
 				setData={setData}
 				setAction={setAction}
+				setUserById={setUserById}
 			/>
 		);
-	if (action.create) return <CreateUser setData={setData}
-	setAction={setAction}/>;
+	if (action.create)
+		return <CreateUser usetData={setData} setAction={setAction} />;
 };
 
 export default Home;

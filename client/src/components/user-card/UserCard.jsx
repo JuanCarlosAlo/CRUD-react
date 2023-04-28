@@ -6,7 +6,7 @@ import {
 	StyledUserInfo
 } from './styles';
 
-const UserCard = ({ element, setAction, action }) => {
+const UserCard = ({ element, setAction, setUserById }) => {
 	const navigate = useNavigate();
 
 	return (
@@ -25,26 +25,28 @@ const UserCard = ({ element, setAction, action }) => {
 						details
 					</button>
 					<button
-						onClick={() =>
+						onClick={() => {
 							setAction({
 								delete: false,
 								open: true,
-								edit: element.userId,
+								edit: true,
 								create: false
-							})
-						}
+							});
+							setUserById(element);
+						}}
 					>
 						edit
 					</button>
 					<button
-						onClick={() =>
+						onClick={() => {
 							setAction({
 								edit: false,
 								open: true,
-								delete: element.userId,
+								delete: true,
 								create: false
-							})
-						}
+							});
+							setUserById(element);
+						}}
 					>
 						delete
 					</button>

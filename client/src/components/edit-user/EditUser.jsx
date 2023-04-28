@@ -2,22 +2,51 @@ import { useState } from 'react';
 
 import { URLS } from '../../constants/urls';
 
-const EditUser = ({ editUser, setData, setAction }) => {
-	if (editUser.length !== 0) {
-		console.log(editUser);
+const EditUser = ({ userById, setData, setAction }) => {
+	if (userById) {
+		const [gender, setGender] = useState('men');
 		const [newUser, setNewUser] = useState({
-			name: editUser[0].name,
-			username: editUser[0].username,
-			email: editUser[0].email,
-			age: editUser[0].age
+			name: userById.name,
+			username: userById.username,
+			email: userById.email,
+			age: userById.age,
+			profileImage: userById.profileImage
 		});
 
-		const url = URLS.EDIT + editUser[0].userId;
+		const url = URLS.EDIT + userById.userId;
 		return (
 			<div>
 				<div>
-					<p>{editUser[0].name}</p>
-					<form>
+					<img src={newUser.profileImage} alt='' />
+					<div>
+						<label htmlFor='men'>Man</label>
+						<input
+							type='radio'
+							name='gender'
+							id='men'
+							value='men'
+							defaultChecked
+							onChange={e => setGender(e.target.value)}
+						/>
+						<label htmlFor='women'>Woman</label>
+						<input
+							type='radio'
+							name='gender'
+							id='women'
+							value='women'
+							onChange={e => setGender(e.target.value)}
+						/>
+						<button
+							onClick={() => {
+								randomPicture(gender, setNewUser, newUser);
+							}}
+						>
+							Generate picture
+						</button>
+					</div>
+					<p>{newUser.name}</p>
+
+					<form onSubmit={e => e.preventDefault()}>
 						<input
 							onChange={e => setNewUser({ ...newUser, name: e.target.value })}
 							type='text'
@@ -42,12 +71,11 @@ const EditUser = ({ editUser, setData, setAction }) => {
 						/>
 						<button
 							onClick={e => {
-								e.preventDefault();
 								setNewUser({
-									name: editUser[0].name,
-									username: editUser[0].username,
-									email: editUser[0].email,
-									age: editUser[0].age
+									name: userById.name,
+									username: userById.username,
+									email: userById.email,
+									age: userById.age
 								});
 								setAction({
 									edit: false,
@@ -61,7 +89,6 @@ const EditUser = ({ editUser, setData, setAction }) => {
 						</button>
 						<button
 							onClick={e => {
-								e.preventDefault();
 								fetchDataEdit(url, setData, {
 									method: 'PATCH',
 									body: JSON.stringify(newUser),
@@ -82,6 +109,14 @@ const EditUser = ({ editUser, setData, setAction }) => {
 	} else {
 		return <div></div>;
 	}
+};
+
+const randomPicture = (gender, setNewUser, newUser) => {
+	const randomNumber = Math.floor(Math.random() * 99);
+	setNewUser({
+		...newUser,
+		profileImage: `https://randomuser.me/api/portraits/${gender}/${randomNumber}.jpg`
+	});
 };
 
 const fetchDataEdit = async (urlToFetch, setData, ...options) => {

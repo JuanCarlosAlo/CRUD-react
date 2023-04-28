@@ -3,24 +3,25 @@ import { URLS } from '../../constants/urls';
 
 const CreateUser = ({ setData, setAction }) => {
 	const [gender, setGender] = useState('men');
-	const [picture, setPicture] = useState(
-		'https://randomuser.me/api/portraits/men/57.jpg'
-	);
-	const [newUser, SetNewUser] = useState({
+
+	const [newUser, setNewUser] = useState({
 		active: false,
 		age: '',
 		email: '',
 		name: '',
 		title: '',
 		username: '',
-		profileImage: picture
+		profileImage: 'https://randomuser.me/api/portraits/men/57.jpg'
 	});
+
 	return (
-		<form onChange={e => e.preventDefault()}>
+		<form onSubmit={e => e.preventDefault()}>
 			<div>
 				<label htmlFor='username'>User Name</label>
 				<input
-					onChange={e => SetNewUser({ ...newUser, username: e.target.value })}
+					onChange={e =>
+						addUserInfo(setNewUser, e.target.value, 'username', newUser)
+					}
 					id='username'
 					type='text'
 				/>
@@ -28,7 +29,9 @@ const CreateUser = ({ setData, setAction }) => {
 			<div>
 				<label htmlFor='name'>Name</label>
 				<input
-					onChange={e => SetNewUser({ ...newUser, name: e.target.value })}
+					onChange={e =>
+						addUserInfo(setNewUser, e.target.value, 'name', newUser)
+					}
 					id='name'
 					type='text'
 				/>
@@ -36,7 +39,9 @@ const CreateUser = ({ setData, setAction }) => {
 			<div>
 				<label htmlFor='email'>email</label>
 				<input
-					onChange={e => SetNewUser({ ...newUser, email: e.target.value })}
+					onChange={e =>
+						addUserInfo(setNewUser, e.target.value, 'email', newUser)
+					}
 					id='email'
 					type='text'
 				/>
@@ -44,7 +49,9 @@ const CreateUser = ({ setData, setAction }) => {
 			<div>
 				<label htmlFor='age'>age</label>
 				<input
-					onChange={e => SetNewUser({ ...newUser, age: e.target.value })}
+					onChange={e =>
+						addUserInfo(setNewUser, e.target.value, 'age', newUser)
+					}
 					id='age'
 					type='text'
 				/>
@@ -52,7 +59,9 @@ const CreateUser = ({ setData, setAction }) => {
 			<div>
 				<label htmlFor='male'>Title</label>
 				<input
-					onChange={e => SetNewUser({ ...newUser, title: e.target.value })}
+					onChange={e =>
+						addUserInfo(setNewUser, e.target.value, 'title', newUser)
+					}
 					id='male'
 					type='text'
 				/>
@@ -60,7 +69,9 @@ const CreateUser = ({ setData, setAction }) => {
 			<div>
 				<label htmlFor='active'>Active</label>
 				<input
-					onChange={e => SetNewUser({ ...newUser, active: e.target.checked })}
+					onChange={e =>
+						addUserInfo(setNewUser, e.target.checked, 'active', newUser)
+					}
 					id='active'
 					type='checkbox'
 				/>
@@ -84,11 +95,10 @@ const CreateUser = ({ setData, setAction }) => {
 					onChange={e => setGender(e.target.value)}
 				/>
 			</div>
-			<img src={picture} alt='' />
+			<img src={newUser.profileImage} alt='' />
 			<button
-				onClick={e => {
-					e.preventDefault();
-					randomPicture(gender, setPicture);
+				onClick={() => {
+					randomPicture(gender, setNewUser, newUser);
 				}}
 			>
 				Generate picture
@@ -111,7 +121,7 @@ const CreateUser = ({ setData, setAction }) => {
 			<button
 				onClick={() => {
 					setAction({ edit: false, delete: false, open: false, create: false });
-					SetNewUser({
+					setNewUser({
 						active: false,
 						age: '',
 						email: '',
@@ -127,11 +137,16 @@ const CreateUser = ({ setData, setAction }) => {
 	);
 };
 
-const randomPicture = (gender, setPicture) => {
+const addUserInfo = (setNewUser, newInfo, newKey, newUser) => {
+	setNewUser({ ...newUser, [newKey]: newInfo });
+};
+
+const randomPicture = (gender, setNewUser, newUser) => {
 	const randomNumber = Math.floor(Math.random() * 99);
-	setPicture(
-		`https://randomuser.me/api/portraits/${gender}/${randomNumber}.jpg`
-	);
+	setNewUser({
+		...newUser,
+		profileImage: `https://randomuser.me/api/portraits/${gender}/${randomNumber}.jpg`
+	});
 };
 
 const fetchDataCreate = async (urlToFetch, setData, ...options) => {

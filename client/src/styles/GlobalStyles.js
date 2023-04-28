@@ -13,6 +13,7 @@ const GlobalStyles = createGlobalStyle`
   body{
     margin: 0;
     font-family: sans-serif;
+    background-color: darkgray;
   }
   a{
     text-decoration: none;
@@ -23,6 +24,7 @@ const GlobalStyles = createGlobalStyle`
     margin-top: 0;
     margin-bottom: 0;
     padding-left: 0;
+    
   }
 `;
 

@@ -57,7 +57,7 @@ controller.deleteId = (req, res) => {
     jsonData.splice(deletedUser, 1);
     fs.writeFile(userFile, JSON.stringify(jsonData), (err) => {
       if (err) throw err;
-      res.status(201).send("user deleted succesfully");
+      res.status(201).send(jsonData);
     });
   });
 };
