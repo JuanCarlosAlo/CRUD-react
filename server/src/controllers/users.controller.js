@@ -8,12 +8,13 @@ controller.allUsers = (req, res) => {
   fs.readFile(userFile, (err, data) => {
     if (err) throw err;
     const jsonData = JSON.parse(data);
-    console.log(jsonData);
+
     res.send(jsonData);
   });
 };
 
 controller.userById = (req, res) => {
+  console.log(req.params);
   fs.readFile(userFile, (err, data) => {
     const userParam = req.params.id;
     if (err) throw err;
@@ -25,7 +26,6 @@ controller.userById = (req, res) => {
 
 controller.editId = (req, res) => {
   fs.readFile(userFile, (err, data) => {
-    console.log(data);
     const id = req.params.id;
     const jsonData = JSON.parse(data);
     const newData = req.body;
@@ -38,6 +38,37 @@ controller.editId = (req, res) => {
     if (userIndex === -1) return res.status(404).send("User not found");
     jsonData.splice(userIndex, 1, newUserData);
 
+    fs.writeFile(userFile, JSON.stringify(jsonData), (err) => {
+      if (err) throw err;
+      res.send(jsonData);
+    });
+  });
+};
+
+controller.deleteId = (req, res) => {
+  console.log(req.params);
+  fs.readFile(userFile, (err, data) => {
+    const id = req.params.id;
+
+    const jsonData = JSON.parse(data);
+    if (err) return res.status(500).send("Failed to read the user file");
+    const deletedUser = jsonData.findIndex((user) => user.userId === id);
+    if (deletedUser === -1) return res.status(404).send("User not found");
+    jsonData.splice(deletedUser, 1);
+    fs.writeFile(userFile, JSON.stringify(jsonData), (err) => {
+      if (err) throw err;
+      res.status(201).send("user deleted succesfully");
+    });
+  });
+};
+
+controller.createId = (req, res) => {
+  fs.readFile(userFile, (err, data) => {
+    const newData = req.body;
+    const newUserData = { userId: v4(), ...newData };
+    const jsonData = JSON.parse(data);
+    if (err) return res.status(500).send("Failed to read the user file");
+    jsonData.push(newUserData);
     fs.writeFile(userFile, JSON.stringify(jsonData), (err) => {
       if (err) throw err;
       res.send(jsonData);

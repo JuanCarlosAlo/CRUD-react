@@ -26,12 +26,28 @@ const UserCard = ({ element, setAction, action }) => {
 					</button>
 					<button
 						onClick={() =>
-							setAction({ delete: false, open: true, edit: element.userId })
+							setAction({
+								delete: false,
+								open: true,
+								edit: element.userId,
+								create: false
+							})
 						}
 					>
 						edit
 					</button>
-					<button>delete</button>
+					<button
+						onClick={() =>
+							setAction({
+								edit: false,
+								open: true,
+								delete: element.userId,
+								create: false
+							})
+						}
+					>
+						delete
+					</button>
 				</div>
 			</StyledButtonsContainer>
 		</StyledUserCard>

@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useEditFetch } from '../../hooks/useFetch';
+
 import { URLS } from '../../constants/urls';
 
-const EditUser = ({ editUser }) => {
+const EditUser = ({ editUser, setData, setAction }) => {
 	if (editUser.length !== 0) {
-		const [data, setData] = useState([]);
+		console.log(editUser);
 		const [newUser, setNewUser] = useState({
 			name: editUser[0].name,
 			username: editUser[0].username,
@@ -49,14 +49,11 @@ const EditUser = ({ editUser }) => {
 									email: editUser[0].email,
 									age: editUser[0].age
 								});
-								fetchDataEdit(url, {
-									method: 'PATCH',
-									body: JSON.stringify(newUser),
-									headers: {
-										Accept: 'application/json',
-
-										'Content-Type': 'application/json'
-									}
+								setAction({
+									edit: false,
+									delete: false,
+									open: false,
+									create: false
 								});
 							}}
 						>
@@ -65,7 +62,7 @@ const EditUser = ({ editUser }) => {
 						<button
 							onClick={e => {
 								e.preventDefault();
-								fetchDataEdit(url, {
+								fetchDataEdit(url, setData, {
 									method: 'PATCH',
 									body: JSON.stringify(newUser),
 									headers: {
@@ -87,11 +84,11 @@ const EditUser = ({ editUser }) => {
 	}
 };
 
-const fetchDataEdit = async (urlToFetch, ...options) => {
+const fetchDataEdit = async (urlToFetch, setData, ...options) => {
 	console.log(...options);
 	const request = await fetch(urlToFetch, ...options);
 	const data = await request.json();
-
+	setData(data);
 	console.log(data);
 };
 

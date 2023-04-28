@@ -5,7 +5,7 @@ import { URLS } from '../../constants/urls';
 const Details = () => {
 	const userId = useParams();
 
-	const { data, setUrlToFetch } = useFetch(URLS.DETAILS + userId.id);
+	const { data } = useFetch(URLS.DETAILS + userId.id);
 	const navigate = useNavigate();
 	return (
 		<div>

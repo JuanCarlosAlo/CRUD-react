@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 const useFetch = url => {
 	const [data, setData] = useState([]);
 	const [urlToFetch, setUrlToFetch] = useState(url);
@@ -7,7 +8,7 @@ const useFetch = url => {
 		fetchData(urlToFetch, setData);
 	}, [urlToFetch]);
 
-	return { data, setUrlToFetch };
+	return { data, setUrlToFetch, setData };
 };
 
 const useEditFetch = (url, newMethod, userNewInfo) => {
@@ -28,7 +29,7 @@ const useEditFetch = (url, newMethod, userNewInfo) => {
 		fetchData(urlToFetch, setData);
 	}, [urlToFetch]);
 
-	return { data, setUrlToFetch };
+	return { data, setUrlToFetch, urlToFetch };
 };
 
 const fetchData = async (urlToFetch, setData) => {
