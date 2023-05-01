@@ -5,10 +5,11 @@ const StyledHeader = styled.header`
 	justify-content: flex-start;
 	align-items: center;
 	padding-left: 4rem;
-	background-color: black;
+
 	color: white;
 	border-bottom: 2px solid white;
 	margin-bottom: 4rem;
+	background: rgb(250, 50, 50);
 `;
 
 export { StyledHeader };

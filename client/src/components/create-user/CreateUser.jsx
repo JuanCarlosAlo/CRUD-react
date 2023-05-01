@@ -1,159 +1,132 @@
-import { useState } from 'react';
 import { URLS } from '../../constants/urls';
+import { useForm } from '../../hooks/useForm';
+import {
+	StyledButton,
+	StyledButtonsContainer,
+	StyledForm,
+	StyledFormContainer,
+	StyledImgGeneratorContainer
+} from './styles';
 
-const CreateUser = ({ setData, setAction }) => {
-	const [gender, setGender] = useState('men');
-
-	const [newUser, setNewUser] = useState({
-		active: false,
-		age: '',
-		email: '',
-		name: '',
-		title: '',
-		username: '',
-		profileImage: 'https://randomuser.me/api/portraits/men/57.jpg'
-	});
+const CreateUser = ({ setAction, setUrlToFetch, setOptions }) => {
+	const { setNewUser, addUserInfo, randomPicture, setGender, newUser } =
+		useForm();
 
 	return (
-		<form onSubmit={e => e.preventDefault()}>
-			<div>
+		<StyledForm onSubmit={e => e.preventDefault()}>
+			<img src={newUser.profileImage} alt='' />
+			<StyledImgGeneratorContainer>
+				<div>
+					<label htmlFor='men'>Man</label>
+					<input
+						type='radio'
+						name='gender'
+						id='men'
+						value='men'
+						defaultChecked
+						onChange={e => setGender(e.target.value)}
+					/>
+					<label htmlFor='women'>Woman</label>
+					<input
+						type='radio'
+						name='gender'
+						id='women'
+						value='women'
+						onChange={e => setGender(e.target.value)}
+					/>
+				</div>
+				<StyledButton
+					onClick={() => {
+						randomPicture();
+					}}
+				>
+					Generate picture
+				</StyledButton>
+			</StyledImgGeneratorContainer>
+
+			<StyledFormContainer>
 				<label htmlFor='username'>User Name</label>
 				<input
-					onChange={e =>
-						addUserInfo(setNewUser, e.target.value, 'username', newUser)
-					}
+					onChange={e => addUserInfo(e.target.value, 'username')}
 					id='username'
 					type='text'
 				/>
-			</div>
-			<div>
+			</StyledFormContainer>
+			<StyledFormContainer>
 				<label htmlFor='name'>Name</label>
 				<input
-					onChange={e =>
-						addUserInfo(setNewUser, e.target.value, 'name', newUser)
-					}
+					onChange={e => addUserInfo(e.target.value, 'name')}
 					id='name'
 					type='text'
 				/>
-			</div>
-			<div>
-				<label htmlFor='email'>email</label>
+			</StyledFormContainer>
+			<StyledFormContainer>
+				<label htmlFor='email'>Email</label>
 				<input
-					onChange={e =>
-						addUserInfo(setNewUser, e.target.value, 'email', newUser)
-					}
+					onChange={e => addUserInfo(e.target.value, 'email')}
 					id='email'
 					type='text'
 				/>
-			</div>
-			<div>
-				<label htmlFor='age'>age</label>
+			</StyledFormContainer>
+			<StyledFormContainer>
+				<label htmlFor='age'>Age</label>
 				<input
-					onChange={e =>
-						addUserInfo(setNewUser, e.target.value, 'age', newUser)
-					}
+					onChange={e => addUserInfo(e.target.value, 'age')}
 					id='age'
 					type='text'
 				/>
-			</div>
-			<div>
+			</StyledFormContainer>
+			<StyledFormContainer>
 				<label htmlFor='male'>Title</label>
 				<input
-					onChange={e =>
-						addUserInfo(setNewUser, e.target.value, 'title', newUser)
-					}
+					onChange={e => addUserInfo(e.target.value, 'title')}
 					id='male'
 					type='text'
 				/>
-			</div>
-			<div>
+			</StyledFormContainer>
+			<StyledFormContainer>
 				<label htmlFor='active'>Active</label>
 				<input
-					onChange={e =>
-						addUserInfo(setNewUser, e.target.checked, 'active', newUser)
-					}
+					onChange={e => addUserInfo(e.target.checked, 'active')}
 					id='active'
 					type='checkbox'
 				/>
-			</div>
-			<div>
-				<label htmlFor='men'>Man</label>
-				<input
-					type='radio'
-					name='gender'
-					id='men'
-					value='men'
-					defaultChecked
-					onChange={e => setGender(e.target.value)}
-				/>
-				<label htmlFor='women'>Woman</label>
-				<input
-					type='radio'
-					name='gender'
-					id='women'
-					value='women'
-					onChange={e => setGender(e.target.value)}
-				/>
-			</div>
-			<img src={newUser.profileImage} alt='' />
-			<button
-				onClick={() => {
-					randomPicture(gender, setNewUser, newUser);
-				}}
-			>
-				Generate picture
-			</button>
-			<button
-				onClick={() =>
-					fetchDataCreate(URLS.POST, setData, {
-						method: 'POST',
-						body: JSON.stringify({ ...newUser }),
-						headers: {
-							Accept: 'application/json',
+			</StyledFormContainer>
+			<StyledButtonsContainer>
+				<StyledButton
+					onClick={() => {
+						setUrlToFetch(URLS.POST);
+						setOptions({
+							method: 'POST',
+							body: JSON.stringify({ ...newUser }),
+							headers: {
+								Accept: 'application/json',
 
-							'Content-Type': 'application/json'
-						}
-					})
-				}
-			>
-				Create
-			</button>
-			<button
-				onClick={() => {
-					setAction({ edit: false, delete: false, open: false, create: false });
-					setNewUser({
-						active: false,
-						age: '',
-						email: '',
-						name: '',
-						title: '',
-						username: ''
-					});
-				}}
-			>
-				Cancel
-			</button>
-		</form>
+								'Content-Type': 'application/json'
+							}
+						});
+					}}
+				>
+					Create
+				</StyledButton>
+				<StyledButton
+					onClick={() => {
+						setAction({ edit: false, delete: false, create: false });
+						setNewUser({
+							active: false,
+							age: '',
+							email: '',
+							name: '',
+							title: '',
+							username: ''
+						});
+					}}
+				>
+					Cancel
+				</StyledButton>
+			</StyledButtonsContainer>
+		</StyledForm>
 	);
-};
-
-const addUserInfo = (setNewUser, newInfo, newKey, newUser) => {
-	setNewUser({ ...newUser, [newKey]: newInfo });
-};
-
-const randomPicture = (gender, setNewUser, newUser) => {
-	const randomNumber = Math.floor(Math.random() * 99);
-	setNewUser({
-		...newUser,
-		profileImage: `https://randomuser.me/api/portraits/${gender}/${randomNumber}.jpg`
-	});
-};
-
-const fetchDataCreate = async (urlToFetch, setData, ...options) => {
-	console.log(urlToFetch);
-	const request = await fetch(urlToFetch, ...options);
-	const data = await request.json();
-	setData(data);
 };
 
 export default CreateUser;

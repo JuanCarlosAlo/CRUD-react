@@ -1,6 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import {
+	StyledButtonDelete,
+	StyledButtonEdit,
+	StyledButtonInfo,
+	StyledButtons,
 	StyledButtonsContainer,
+	StyledImg,
 	StyledUserCard,
 	StyledUserImg,
 	StyledUserInfo
@@ -20,37 +25,39 @@ const UserCard = ({ element, setAction, setUserById }) => {
 			</StyledUserInfo>
 			<StyledButtonsContainer>
 				<p>{element.active ? 'Online' : 'Offline'}</p>
-				<div>
-					<button onClick={() => navigate(`/details/${element.userId}`)}>
-						details
-					</button>
-					<button
+				<StyledButtons>
+					<StyledButtonInfo
+						onClick={() => navigate(`/details/${element.userId}`)}
+					>
+						<StyledImg src='/circle-info-solid.svg' alt='' />
+					</StyledButtonInfo>
+					<StyledButtonEdit
 						onClick={() => {
 							setAction({
 								delete: false,
-								open: true,
+
 								edit: true,
 								create: false
 							});
 							setUserById(element);
 						}}
 					>
-						edit
-					</button>
-					<button
+						<StyledImg src='/pen-to-square-solid.svg' alt='' />
+					</StyledButtonEdit>
+					<StyledButtonDelete
 						onClick={() => {
 							setAction({
 								edit: false,
-								open: true,
+
 								delete: true,
 								create: false
 							});
 							setUserById(element);
 						}}
 					>
-						delete
-					</button>
-				</div>
+						<StyledImg src='/trash-solid.svg' alt='' />
+					</StyledButtonDelete>
+				</StyledButtons>
 			</StyledButtonsContainer>
 		</StyledUserCard>
 	);

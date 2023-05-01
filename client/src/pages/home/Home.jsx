@@ -6,68 +6,99 @@ import { useState } from 'react';
 import EditUser from '../../components/edit-user/EditUser';
 import DeleteUser from '../../components/delete-user/DeleteUser';
 import CreateUser from '../../components/create-user/CreateUser';
-import { StyledHome } from './styles';
+import {
+	StyledButton,
+	StyledFilterHeader,
+	StyledHome,
+	StyledImg,
+	StyledList,
+	StyledListContainer,
+	StyledOptions
+} from './styles';
+import Filter from '../../components/filter/Filter';
+import { useFilter } from '../../hooks/useFilter';
 
 const Home = () => {
-	const { data, setData } = useFetch(URLS.ALL);
+	const { data, setData, setUrlToFetch, setOptions } = useFetch(URLS.ALL);
+	const { filteredUser, setActive, setSearch, setSort, active } =
+		useFilter(data);
 	const [action, setAction] = useState({
 		edit: false,
 		delete: false,
-		open: false,
 		create: false
 	});
+
 	const [userById, setUserById] = useState({});
 	if (!data) {
 		return <h1>Loading</h1>;
 	} else {
 		return (
 			<StyledHome>
-				<div>
-					<button
-						onClick={() =>
-							setAction({
-								edit: false,
-								delete: false,
-								open: false,
-								create: true
-							})
-						}
-					>
-						Create User
-					</button>
-					{data.map(element => (
-						<UserCard
-							key={v4()}
-							element={element}
+				<StyledListContainer>
+					<StyledFilterHeader>
+						<StyledButton
+							onClick={() =>
+								setAction({
+									edit: false,
+									delete: false,
+									open: false,
+									create: true
+								})
+							}
+						>
+							<StyledImg src='/user-plus-solid.svg' alt='' />
+						</StyledButton>
+						<Filter
+							active={active}
+							setActive={setActive}
+							setSearch={setSearch}
+							setSort={setSort}
+						/>
+					</StyledFilterHeader>
+					<StyledList>
+						{filteredUser.map(element => (
+							<UserCard
+								key={v4()}
+								element={element}
+								setAction={setAction}
+								setUserById={setUserById}
+							/>
+						))}
+					</StyledList>
+				</StyledListContainer>
+
+				<StyledOptions>
+					{action.edit && (
+						<EditUser
+							userById={userById}
+							setData={setData}
+							setAction={setAction}
+							setUrlToFetch={setUrlToFetch}
+							setOptions={setOptions}
+						/>
+					)}
+					{action.delete && (
+						<DeleteUser
+							userById={userById}
+							setData={setData}
 							setAction={setAction}
 							setUserById={setUserById}
+							setUrlToFetch={setUrlToFetch}
+							setOptions={setOptions}
 						/>
-					))}
-				</div>
-				<div>
-					{filter(action, setData, setAction, userById, data, setUserById)}
-				</div>
+					)}
+					{action.create && (
+						<CreateUser
+							usetData={setData}
+							setAction={setAction}
+							setUrlToFetch={setUrlToFetch}
+							setOptions={setOptions}
+						/>
+					)}
+				</StyledOptions>
 			</StyledHome>
 		);
 	}
-};
-
-const filter = (action, setData, setAction, userById, data, setUserById) => {
-	if (action.edit)
-		return (
-			<EditUser userById={userById} setData={setData} setAction={setAction} />
-		);
-	if (action.delete)
-		return (
-			<DeleteUser
-				userById={userById}
-				setData={setData}
-				setAction={setAction}
-				setUserById={setUserById}
-			/>
-		);
-	if (action.create)
-		return <CreateUser usetData={setData} setAction={setAction} />;
 };
 
 export default Home;

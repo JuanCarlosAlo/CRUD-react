@@ -1,23 +1,22 @@
-import { useState } from 'react';
-
 import { URLS } from '../../constants/urls';
+import { useForm } from '../../hooks/useForm';
+import {
+	StyledButton,
+	StyledButtonsContainer,
+	StyledEditUser,
+	StyledForm,
+	StyledImgContainer
+} from './styles';
 
-const EditUser = ({ userById, setData, setAction }) => {
+const EditUser = ({ userById, setAction, setUrlToFetch, setOptions }) => {
 	if (userById) {
-		const [gender, setGender] = useState('men');
-		const [newUser, setNewUser] = useState({
-			name: userById.name,
-			username: userById.username,
-			email: userById.email,
-			age: userById.age,
-			profileImage: userById.profileImage
-		});
+		const { setNewUser, randomPicture, setGender, newUser } = useForm();
 
 		const url = URLS.EDIT + userById.userId;
 		return (
-			<div>
-				<div>
-					<img src={newUser.profileImage} alt='' />
+			<StyledEditUser>
+				<img src={newUser.profileImage} alt='' />
+				<StyledImgContainer>
 					<div>
 						<label htmlFor='men'>Man</label>
 						<input
@@ -36,40 +35,44 @@ const EditUser = ({ userById, setData, setAction }) => {
 							value='women'
 							onChange={e => setGender(e.target.value)}
 						/>
-						<button
-							onClick={() => {
-								randomPicture(gender, setNewUser, newUser);
-							}}
-						>
-							Generate picture
-						</button>
 					</div>
-					<p>{newUser.name}</p>
 
-					<form onSubmit={e => e.preventDefault()}>
-						<input
-							onChange={e => setNewUser({ ...newUser, name: e.target.value })}
-							type='text'
-							placeholder='New Name'
-						/>
-						<input
-							onChange={e =>
-								setNewUser({ ...newUser, username: e.target.value })
-							}
-							type='text'
-							placeholder='New UserName'
-						/>
-						<input
-							onChange={e => setNewUser({ ...newUser, email: e.target.value })}
-							type='text'
-							placeholder='New Email'
-						/>
-						<input
-							onChange={e => setNewUser({ ...newUser, name: e.target.value })}
-							type='text'
-							placeholder='New Age'
-						/>
-						<button
+					<button
+						onClick={() => {
+							randomPicture();
+							setNewUser({ ...userById });
+						}}
+					>
+						Generate picture
+					</button>
+				</StyledImgContainer>
+				<p>{userById.name}</p>
+
+				<StyledForm onSubmit={e => e.preventDefault()}>
+					<input
+						onChange={e => setNewUser({ ...userById, name: e.target.value })}
+						type='text'
+						placeholder='New Name'
+					/>
+					<input
+						onChange={e =>
+							setNewUser({ ...userById, username: e.target.value })
+						}
+						type='text'
+						placeholder='New UserName'
+					/>
+					<input
+						onChange={e => setNewUser({ ...userById, email: e.target.value })}
+						type='text'
+						placeholder='New Email'
+					/>
+					<input
+						onChange={e => setNewUser({ ...userById, name: e.target.value })}
+						type='text'
+						placeholder='New Age'
+					/>
+					<StyledButtonsContainer>
+						<StyledButton
 							onClick={e => {
 								setNewUser({
 									name: userById.name,
@@ -80,16 +83,17 @@ const EditUser = ({ userById, setData, setAction }) => {
 								setAction({
 									edit: false,
 									delete: false,
-									open: false,
+
 									create: false
 								});
 							}}
 						>
 							Cancel
-						</button>
-						<button
+						</StyledButton>
+						<StyledButton
 							onClick={e => {
-								fetchDataEdit(url, setData, {
+								setUrlToFetch(url);
+								setOptions({
 									method: 'PATCH',
 									body: JSON.stringify(newUser),
 									headers: {
@@ -101,30 +105,14 @@ const EditUser = ({ userById, setData, setAction }) => {
 							}}
 						>
 							Accept
-						</button>
-					</form>
-				</div>
-			</div>
+						</StyledButton>
+					</StyledButtonsContainer>
+				</StyledForm>
+			</StyledEditUser>
 		);
 	} else {
 		return <div></div>;
 	}
-};
-
-const randomPicture = (gender, setNewUser, newUser) => {
-	const randomNumber = Math.floor(Math.random() * 99);
-	setNewUser({
-		...newUser,
-		profileImage: `https://randomuser.me/api/portraits/${gender}/${randomNumber}.jpg`
-	});
-};
-
-const fetchDataEdit = async (urlToFetch, setData, ...options) => {
-	console.log(...options);
-	const request = await fetch(urlToFetch, ...options);
-	const data = await request.json();
-	setData(data);
-	console.log(data);
 };
 
 export default EditUser;
