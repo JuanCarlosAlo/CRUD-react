@@ -20,8 +20,7 @@ import { useFilter } from '../../hooks/useFilter';
 
 const Home = () => {
 	const { data, setData, setUrlToFetch, setOptions } = useFetch(URLS.ALL);
-	const { filteredUser, setActive, setSearch, setSort, active } =
-		useFilter(data);
+	const { filteredUser, filter, setFilter } = useFilter(data);
 	const [action, setAction] = useState({
 		edit: false,
 		delete: false,
@@ -48,12 +47,7 @@ const Home = () => {
 						>
 							<StyledImg src='/user-plus-solid.svg' alt='' />
 						</StyledButton>
-						<Filter
-							active={active}
-							setActive={setActive}
-							setSearch={setSearch}
-							setSort={setSort}
-						/>
+						<Filter filter={filter} setFilter={setFilter} />
 					</StyledFilterHeader>
 					<StyledList>
 						{filteredUser.map(element => (

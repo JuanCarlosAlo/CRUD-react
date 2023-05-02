@@ -1,3 +1,4 @@
+import { METHODS } from '../../constants/methods';
 import { URLS } from '../../constants/urls';
 import { useForm } from '../../hooks/useForm';
 import {
@@ -97,7 +98,7 @@ const CreateUser = ({ setAction, setUrlToFetch, setOptions }) => {
 					onClick={() => {
 						setUrlToFetch(URLS.POST);
 						setOptions({
-							method: 'POST',
+							method: METHODS.POST,
 							body: JSON.stringify({ ...newUser }),
 							headers: {
 								Accept: 'application/json',

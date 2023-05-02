@@ -1,19 +1,24 @@
 import { StyledFilterContainer } from './styles';
 
-const Filter = ({ active, setActive, setSearch, setSort }) => {
+const Filter = ({ filter, setFilter }) => {
 	return (
 		<StyledFilterContainer>
-			<input onChange={e => setSearch(e.target.value)} type='text' />
+			<input
+				onChange={e => setFilter({ ...filter, search: e.target.value })}
+				type='text'
+			/>
 
 			<div>
 				<span>Active Only</span>
 				<input
-					onChange={() => setActive(!active)}
+					onChange={() => setFilter({ ...filter, active: !filter.active })}
 					type='checkbox'
-					value={active}
+					value={filter.active}
 				/>
 			</div>
-			<select onClick={e => setSort(Number(e.target.value))}>
+			<select
+				onClick={e => setFilter({ ...filter, sort: Number(e.target.value) })}
+			>
 				<option value={0}>Default</option>
 				<option value={1}>By Name</option>
 			</select>

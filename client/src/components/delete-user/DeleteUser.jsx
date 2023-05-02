@@ -1,3 +1,4 @@
+import { METHODS } from '../../constants/methods';
 import { URLS } from '../../constants/urls';
 import { StyledButton, StyledDeleteUser, StyledText } from './styles';
 
@@ -18,7 +19,7 @@ const DeleteUser = ({
 					<StyledButton
 						onClick={() => {
 							setUrlToFetch(URLS.DELETE + userById.userId);
-							setOptions({ method: 'DELETE' });
+							setOptions({ method: METHODS.DELETE });
 
 							setUserById('');
 						}}

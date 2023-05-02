@@ -1,3 +1,4 @@
+import { METHODS } from '../../constants/methods';
 import { URLS } from '../../constants/urls';
 import { useForm } from '../../hooks/useForm';
 import {
@@ -94,7 +95,7 @@ const EditUser = ({ userById, setAction, setUrlToFetch, setOptions }) => {
 							onClick={e => {
 								setUrlToFetch(url);
 								setOptions({
-									method: 'PATCH',
+									method: METHODS.PATCH,
 									body: JSON.stringify(newUser),
 									headers: {
 										Accept: 'application/json',

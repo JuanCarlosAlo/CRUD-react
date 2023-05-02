@@ -1,0 +1,6 @@
+export const USER_STATUS_ACTIONS = {
+	CREATE: 'CREATE',
+	DETAILS: 'DETAILS',
+	EDIT: 'EDIT',
+	DELETE: 'DELETE'
+};
