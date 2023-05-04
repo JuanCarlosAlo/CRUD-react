@@ -96,16 +96,7 @@ const CreateUser = ({ setAction, setUrlToFetch, setOptions }) => {
 			<StyledButtonsContainer>
 				<StyledButton
 					onClick={() => {
-						setUrlToFetch(URLS.POST);
-						setOptions({
-							method: METHODS.POST,
-							body: JSON.stringify({ ...newUser }),
-							headers: {
-								Accept: 'application/json',
-
-								'Content-Type': 'application/json'
-							}
-						});
+						handleClick(setUrlToFetch, setOptions, newUser);
 					}}
 				>
 					Create
@@ -128,6 +119,24 @@ const CreateUser = ({ setAction, setUrlToFetch, setOptions }) => {
 			</StyledButtonsContainer>
 		</StyledForm>
 	);
+};
+
+const handleClick = (setUrlToFetch, setOptions, newUser) => {
+	console.log(Object.values(newUser));
+	if (Object.values(newUser) !== '') {
+		setUrlToFetch(URLS.POST);
+		setOptions({
+			method: METHODS.POST,
+			body: JSON.stringify({ ...newUser }),
+			headers: {
+				Accept: 'application/json',
+
+				'Content-Type': 'application/json'
+			}
+		});
+	} else {
+		return alert('Please fill all information to create a new user');
+	}
 };
 
 export default CreateUser;
