@@ -1,6 +1,6 @@
 # Users CRUD
 
-![Imagen del proyecto](https://raw.githubusercontent.com/JuanCarlosAlo/Country-flags/main/public/readme-1.jpg)
+![Imagen del proyecto](https://raw.githubusercontent.com/JuanCarlosAlo/CRUD-react/main/client/public/readme-1.jpg)
 
 ## Ejemplo en vivo
 
@@ -8,11 +8,11 @@
 
 ## Descripción
 
-Info of the world es una aplicacion con informacion de todos los paises del mundo capaz de filtrar por regiones y por busqueda.
+Users CRUD es una base de datos de usuarios donde se puede ver la informacion de cada usuario, modificar el usuario, borrar usuario y crear uno nuevo. Ademas de filtrar los usuarios por varios parametros.
 
 ## ¿Qué he aprendido en este proyecto?
 
-En este proyecto es el mismo hecho con js, pero esta vez hecho con React.js. Aprendi a usar react-router con layout pero con el añadido de realizar fetch con la informacion que se imprime a la API externa. Aprendi a hacer un hook para el fetch y componentizar cada elemento necesario.
+En este projecto aprendi a realizar un CRUD de usuarios usando un servidor personalizados modificando un JSON en local. Aprendi a realizar operaciones de back en el servidor como eliminar usuario, o editarlo, partiendo de la informacion que llega del cliente. Ademas de ser capaz de filtrar los usuarios del documento por diferentes parametros como busqueda, activos o alfabeticamente.
 
 ## Tecnologías
 
@@ -24,6 +24,7 @@ En este proyecto es el mismo hecho con js, pero esta vez hecho con React.js. Apr
 [![REACT](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://es.wikipedia.org/wiki/React)
 [![REACT ROUTER](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)](https://es.wikipedia.org/wiki/React)
 [![STYLED COMPONENTS](https://img.shields.io/badge/styled--components-DB7093?style=for-the-badge&logo=styled-components&logoColor=white)](https://styled-components.com/)
+[![NODE](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://en.wikipedia.org/wiki/Node.js)
 
 ## Vista previa del proyecto
 
@@ -31,15 +32,15 @@ Si quieres echar un vistazo al proyecto, te recomiendo:
 
 ## Ordenador
 
-![Captura del proyecto](https://raw.githubusercontent.com/JuanCarlosAlo/Country-flags/main/public/readme-1.jpg)
+![Captura del proyecto](https://raw.githubusercontent.com/JuanCarlosAlo/CRUD-react/main/client/public/readme-1.jpg)
 
 ## Estados activos
 
-![Captura del proyecto](https://raw.githubusercontent.com/JuanCarlosAlo/Country-flags/main/public/readme-2.jpg)
+![Captura del proyecto](https://raw.githubusercontent.com/JuanCarlosAlo/CRUD-react/main/client/public/readme-2.jpg)
 
 ## Parte de Codigo
 
-![Captura del proyecto](https://raw.githubusercontent.com/JuanCarlosAlo/Country-flags/main/public/readme-4.jpg)
+![Captura del proyecto](https://github.com/JuanCarlosAlo/CRUD-react/blob/main/client/public/readme-3.jpg)
 
 ## Autor
 

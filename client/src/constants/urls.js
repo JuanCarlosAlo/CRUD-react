@@ -1,4 +1,4 @@
-const BASE = 'http://localhost:3000/crud/users';
+const BASE = 'https://crud-react-server.onrender.com/crud/users';
 
 export const URLS = {
 	ALL: BASE,
